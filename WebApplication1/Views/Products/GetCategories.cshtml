@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebApplication1.Models.Category>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<!-- Navigation Menu -->
+<ul class="nav nav-list">
+    @foreach (var category in Model)
+    {
+        <li>
+            <a href="@Url.Action("GetProductsByCategory", "Products", new { categoryId = category.CategoryID })">
+                <span class="icon-chevron-right"></span>@category.CategoryName
+            </a>
+        </li>
+    }
+    <li style="border:0"> &nbsp;</li>
+    <li>
+        <a class="totalInCart" href="cart.html">
+            <strong>Total Amount <span class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong>
+        </a>
+    </li>
+</ul>
+

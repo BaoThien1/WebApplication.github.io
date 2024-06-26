@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebApplication1.Models.CartDetail>
+
+    <!-- Start Cart  -->
+    <div class="cart-box">
+        <div class="container">
+            <h2>Shopping Cart</h2>
+            @if (Model != null && Model.Any())
+            {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@item.Product.ProductName</td>
+                        <td>$@item.Product.Price.ToString("0.##")</td>
+                        <td>
+                            @using (Html.BeginForm("UpdateCart", "Cart", FormMethod.Post))
+                            {
+                            @Html.Hidden("CartDetailID", item.CartDetailID)
+                            <input type="number" name="Quantity" value="@item.Quantity" min="1" class="form-control" style="width: 60px;" />
+                            <input type="submit" value="Update" class="btn btn-primary btn-sm" />
+                            }
+                        </td>
+                        <td>$@(item.Product.Price * item.Quantity)</td>
+                        <td>
+                            @using (Html.BeginForm("DeleteFromCart", "Cart", FormMethod.Post))
+                            {
+                            @Html.Hidden("CartDetailID", item.CartDetailID)
+                            <input type="submit" value="Remove" class="btn btn-danger btn-sm" />
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <a class="btn btn-success" href="@Url.Action("Checkout", "Cart" )">Proceed to Checkout</a>
+            }
+            else
+            {
+            <p>Your cart is empty.</p>
+            }
+        </div>
+    </div>
+    <!-- End Cart  -->

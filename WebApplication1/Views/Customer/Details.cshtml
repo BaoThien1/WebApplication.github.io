@@ -1,0 +1,87 @@
+﻿@model WebApplication1.Models.Customer
+
+@{
+    ViewBag.Title = "Customer Details";
+}
+
+<h2>Customer Details</h2>
+
+<div class="form-horizontal">
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Email, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Phone, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address, new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+
+<h3>Orders</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>InvoiceID</th>
+            <th>Date</th>
+            <th>Ship Address</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Products</th> <!-- Add new header for products -->
+        </tr>
+    </thead>
+    <tbody>
+        @if (ViewBag.Orders != null)
+        {
+            foreach (var order in ViewBag.Orders)
+            {
+                <tr>
+                    <td>@order.InvoiceID</td>
+                    <td>@order.InvoiceDate</td>
+                    <td>@order.ShipAddress</td>
+                    <td>@order.Phone</td>
+                    <td>@order.Status</td>
+                    <td>@String.Format("{0:C}", order.Total)</td>
+                    <td>
+                        <!-- Display products with quantities -->
+                        @foreach (var detail in order.InvoiceDetails)
+                        {
+                            <p>@detail.Quantity x @detail.Product.ProductName</p>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-success" })
+</div>

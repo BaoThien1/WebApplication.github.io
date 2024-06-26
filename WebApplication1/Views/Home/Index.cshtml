@@ -1,0 +1,142 @@
+﻿@model List<WebApplication1.Models.Product>
+
+@{
+    ViewBag.Title = "Products by Category";
+}
+
+<h2>Products by Category</h2>
+
+<div class="container">
+    <div class="span9">
+        <div class="well np">
+            <!-- Carousel for promotional images -->
+            <div id="myCarousel" class="carousel slide homCar">
+                <div class="carousel-inner">
+                    <div class="item">
+                        <img class="img-fluid" src="assets/img/bootstrap_free-ecommerce.png" alt="bootstrap ecommerce templates">
+                        <div class="carousel-caption">
+                            <h4>Bootstrap shopping cart</h4>
+                            <p><span>Very clean simple to use</span></p>
+                        </div>
+                    </div>
+                    <!-- Add more carousel items as needed -->
+                </div>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">‹</a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">›</a>
+            </div>
+        </div>
+
+        <!-- New Products section -->
+        <div class="well well-small">
+            <h3>New Products</h3>
+            <hr class="soften">
+            <div class="row-fluid">
+                <div id="newProductCar" class="carousel slide">
+                    <div class="carousel-inner">
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            var chunkSize = 4;
+                            var totalProducts = Model.Count;
+                            var totalChunks = (totalProducts + chunkSize - 1) / chunkSize;
+
+                            for (int i = 0; i < totalChunks; i++)
+                            {
+                                var products = Model.Skip(i * chunkSize).Take(chunkSize).ToList();
+                                <div class="item @(i == 0 ? "active" : "")">
+                                    <ul class="thumbnails">
+                                        @foreach (var product in products)
+                                        {
+                                            <li class="span3">
+                                                <div class="thumbnail">
+                                                    <a href="#">
+                                                        <img class="img-fluid" src="@Url.Content(product.ImageURL)" alt="@product.ProductName">
+                                                    </a>
+                                                    <div class="caption">
+                                                        <h5>@product.ProductName</h5>
+                                                        <h4>
+                                                            <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                                                                <input type="hidden" name="productId" value="@product.ProductID" />
+                                                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                                            </form>
+                                                            <span class="pull-right">@String.Format("{0:C}", product.Price)</span>
+                                                        </h4>
+                                                        <br>
+                                                        <a href="@Url.Action("Detail", "Product", new { proid = product.ProductID })" class="btn btn-info">Details</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <a class="left carousel-control" href="#newProductCar" data-slide="prev">‹</a>
+                    <a class="right carousel-control" href="#newProductCar" data-slide="next">›</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Products section -->
+        <div class="well well-small">
+            <h3>
+                <a class="btn btn-mini pull-right" href="@Url.Action("Index", "Product")" title="View more">
+                    View More
+                    <span class="icon-plus"></span>
+                </a> Featured Products
+            </h3>
+            <hr class="soften">
+            <div class="row-fluid">
+                <ul class="thumbnails">
+                    @if (Model != null)
+                    {
+                        foreach (var product in Model.Where(p => p.IsHot.HasValue && p.IsHot.Value).Take(3))
+                        {
+                            <li class="span4">
+                                <div class="thumbnail">
+                                    <a class="zoomTool" href="javascript:;" title="add to cart" data-toggle="modal" data-target="#quickViewModal_@product.ProductID">
+                                        <span class="icon-search"></span> QUICK VIEW
+                                    </a>
+                                    <a href="#">
+                                        <img class="img-fluid" src="@Url.Content(product.ImageURL)" alt="@product.ProductName">
+                                    </a>
+                                    <div class="caption">
+                                        <h5>@product.ProductName</h5>
+
+                                        <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                                            <input type="hidden" name="productId" value="@product.ProductID" /> <!-- Replace with actual product ID -->
+                                            <button type="submit">Add to Cart</button>
+                                        </form>
+                                        <span class="pull-right">@String.Format("{0:C}", product.Price)</span>
+
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- Quick View Modal -->
+                            <div id="quickViewModal_@product.ProductID" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">@product.ProductName</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="@Url.Content(product.ImageURL)" alt="@product.ProductName" class="img-responsive">
+                                            <p>@product.Description</p>
+                                            <p><strong>@String.Format("{0:C}", product.Price)</strong></p>
+                                            <a class="btn btn-default" href="@Url.Action("Detail", "Product", new { proid = product.ProductID })">View Details</a>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

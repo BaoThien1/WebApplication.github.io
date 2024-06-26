@@ -1,0 +1,90 @@
+﻿@model WebApplication1.Models.Invoice
+
+<h2>Invoice Details</h2>
+
+<div class="form-horizontal">
+    <h4>Invoice</h4>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(model => model.InvoiceID, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.InvoiceID, new { @class = "form-control" })
+        </div>
+    </div>
+
+    
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InvoiceDate, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.InvoiceDate, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShipAddress, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.ShipAddress, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Phone, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Status, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Total, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div>
+        <h4>Invoice Details</h4>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in Model.InvoiceDetails)
+                {
+                    <tr>
+                        <td>@detail.Product.ProductName</td>
+                        <td>@detail.Quantity</td>
+                        <td>$@detail.UnitPrice</td>
+                        <td>$@(detail.Quantity * detail.UnitPrice)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.InvoiceID }, new { @class = "btn btn-primary" })
+        @using (Html.BeginForm("Delete", "Orders", FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to delete this invoice?');" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("id", Model.InvoiceID)
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        }
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+</div>

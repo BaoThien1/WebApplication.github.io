@@ -1,0 +1,40 @@
+﻿@model WebApplication1.Models.Product
+
+@{
+    ViewBag.Title = "Product Details";
+}
+
+<div class="product-detail-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                @if (!string.IsNullOrEmpty(Model.ImageURL))
+                {
+                    <img src="@Url.Content(Model.ImageURL)" class="img-fluid" alt="@Model.ProductName" />
+                }
+                else
+                {
+                    <img src="/Content/Assets/images/default-product-image.jpg" class="img-fluid" alt="Default Image" />
+                }
+            </div>
+            <div class="col-lg-6">
+                <div class="product-detail-text">
+                    <h2>@Model.ProductName</h2>
+                    <h5>Price: $@Model.Price.ToString("0.##")</h5>
+                    <p>@Model.Description</p>
+                    <p>Category: @Model.Category.CategoryName</p>
+                    <p>Sale Off: @Model.SaleOff.GetValueOrDefault().ToString("0.##")%</p>
+                    <p>Quantity: @Model.Quantity</p>
+                    <p>Best Seller: @(Model.BestSell.HasValue && Model.BestSell.Value ? "Yes" : "No")</p>
+                    <p>Hot: @(Model.IsHot.HasValue && Model.IsHot.Value ? "Yes" : "No")</p>
+                    <form action="@Url.Action("AddToCart", "Cart")" method="post" style="display:inline;">
+                        <input type="hidden" name="productId" value="@Model.ProductID" />
+                        <button type="submit" class="btn btn-warning">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

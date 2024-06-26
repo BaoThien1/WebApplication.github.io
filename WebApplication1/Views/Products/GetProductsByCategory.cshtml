@@ -1,0 +1,118 @@
+﻿@model List<WebApplication1.Models.Product>
+
+<div class="well well-small">
+    <h3>Our Products</h3>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="thumbnail product-item">
+                    <a href="@Url.Action("ProductDetails", "Products", new { productId = item.ProductID })">
+                        <img src="@item.ImageURL" alt="@item.ProductName" class="img-responsive">
+                    </a>
+                    <div class="caption cntr">
+                        <h4>@item.ProductName</h4>
+                        <p><strong>@String.Format("{0:C}", item.Price)</strong></p>
+                        @if (item.BestSell ?? false)
+                        {
+                            <span class="label label-danger">Best Seller</span>
+                        }
+                        @if (item.IsHot ?? false)
+                        {
+                            <span class="label label-warning">Hot</span>
+                        }
+
+                        <form action="@Url.Action("AddToCart", "Cart")" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <button type="submit" class="btn btn-warning btn-sm custom-add-to-cart">
+                                <i class="glyphicon glyphicon-shopping-cart"></i> Add to Cart
+                            </button>
+                        </form>
+
+                        <a href="@Url.Action("ProductDetails", "Products", new { productId = item.ProductID })" class="btn btn-danger btn-sm custom-details">
+                            <i class="glyphicon glyphicon-info-sign"></i> Details
+                        </a>
+
+
+                        <br class="clr">
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .thumbnail.product-item {
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s;
+    }
+
+        .thumbnail.product-item:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .thumbnail.product-item img {
+            max-height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+            border-radius: 10px 10px 0 0;
+        }
+
+    .caption.cntr {
+        padding: 15px;
+        text-align: center;
+    }
+
+        .caption.cntr h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .caption.cntr p {
+            margin-bottom: 10px;
+        }
+
+    .custom-add-to-cart, .custom-details {
+        margin-top: 10px;
+        border-radius: 20px; /* Bo tròn nút */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .custom-add-to-cart {
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+
+        .custom-add-to-cart:hover, .custom-add-to-cart:focus {
+            background-color: #449d44;
+            border-color: #398439;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+    .custom-details {
+        background-color: #5bc0de;
+        border-color: #46b8da;
+    }
+
+        .custom-details:hover, .custom-details:focus {
+            background-color: #31b0d5;
+            border-color: #269abc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+    .thumbnail .label {
+        margin-top: 5px;
+    }
+
+    .clr {
+        clear: both;
+    }
+</style>

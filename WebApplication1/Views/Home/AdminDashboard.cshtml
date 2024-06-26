@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<h2>Welcome, @Session["AdminFullName"]</h2>
+
+<div class="admin-dashboard">
+    <h3 class="dashboard-title">Dashboard</h3>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card border-primary mb-4">
+                <div class="card-header bg-warning text-white">
+                    <h3 class="card-title">Manage Categories</h3>
+                </div>
+                <div class="card-body">
+                    <p>View and manage categories</p>
+                    @Html.ActionLink("Category Management", "Index", "Category", null, new { @class = "btn btn-danger btn-block" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-primary mb-4">
+                <div class="card-header bg-warning text-white">
+                    <h3 class="card-title">Manage Invoices</h3>
+                </div>
+                <div class="card-body">
+                    <p>View and manage invoices</p>
+                    @Html.ActionLink("Invoice Management", "Index", "Orders", null, new { @class = "btn btn-danger btn-block" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-primary mb-4">
+                <div class="card-header bg-warning text-white">
+                    <h3 class="card-title">Manage Products</h3>
+                </div>
+                <div class="card-body">
+                    <p>View and manage products</p>
+                    @Html.ActionLink("Product Management", "Index", "ProductManegement", null, new { @class = "btn btn-danger btn-block" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-primary mb-4">
+                <div class="card-header bg-warning text-white">
+                    <h3 class="card-title">View Customers</h3>
+                </div>
+                <div class="card-body">
+                    <p>View and manage customers</p>
+                    @Html.ActionLink("Customer Management", "Index", "Customer", null, new { @class = "btn btn-danger btn-block" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-dashboard {
+        padding: 20px;
+    }
+
+    .dashboard-title {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .card {
+        height: 100%;
+    }
+
+    .card-title {
+        margin-bottom: 0;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        height: 100%;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+</style>

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebApplication1.Models.Category>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Category List</title>
+    <style>
+        .table th, .table td {
+            text-align: left;
+            vertical-align: middle;
+        }
+        .table th {
+            width: 20%;
+        }
+        .table td:nth-child(2) {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h2>Category List</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Category Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CategoryName</td>
+                    <td>@item.Description</td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.CategoryID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CategoryID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+</body>
+</html>
